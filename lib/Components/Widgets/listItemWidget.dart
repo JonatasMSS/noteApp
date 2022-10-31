@@ -14,19 +14,31 @@ class ListItemWidget extends StatefulWidget {
   State<ListItemWidget> createState() => _ListItemWidgetState();
 }
 
-class _ListItemWidgetState extends State<ListItemWidget> {
+class _ListItemWidgetState extends State<ListItemWidget>
+    with TickerProviderStateMixin {
   late double sizeH;
   late bool isVisible;
+  late AnimationController iconAnimation;
+  late bool isActive; // Bool for animation
+
   @override
   initState() {
     super.initState();
     sizeH = 50;
     isVisible = false;
+    isActive = false;
+    iconAnimation = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+      reverseDuration: const Duration(milliseconds: 150),
+    );
   }
 
   changeSizeAndVisibility() {
     sizeH = sizeH == 50 ? 500 : 50;
     isVisible = isVisible ? false : true;
+    isActive = !isActive;
+    isActive ? iconAnimation.forward() : iconAnimation.reverse();
   }
 
   //Variável de tamanho do container
@@ -63,7 +75,10 @@ class _ListItemWidgetState extends State<ListItemWidget> {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.arrow_drop_down_circle),
+                icon: AnimatedIcon(
+                  progress: iconAnimation,
+                  icon: AnimatedIcons.menu_arrow,
+                ),
                 onPressed: () => setState(() => changeSizeAndVisibility()),
               )
             ],
