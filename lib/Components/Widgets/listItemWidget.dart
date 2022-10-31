@@ -13,9 +13,12 @@ class ListItemWidget extends StatefulWidget {
 }
 
 class _ListItemWidgetState extends State<ListItemWidget> {
+  double _sizeH = 100;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOut,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -27,13 +30,13 @@ class _ListItemWidgetState extends State<ListItemWidget> {
           ]),
       margin: const EdgeInsets.all(15),
       padding: const EdgeInsets.all(8),
-      constraints: const BoxConstraints(
-        minHeight: 100,
+      constraints: BoxConstraints(
+        minHeight: _sizeH,
         minWidth: double.infinity,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         // ignore: sort_child_properties_last
         children: [
           Row(
@@ -47,7 +50,13 @@ class _ListItemWidgetState extends State<ListItemWidget> {
               ),
               IconButton(
                 icon: Icon(Icons.arrow_drop_down_circle),
-                onPressed: () => {},
+                onPressed: () => {
+                  setState(
+                    () {
+                      _sizeH = _sizeH == 100 ? 500 : 100;
+                    },
+                  )
+                },
               )
             ],
           ),
@@ -55,13 +64,13 @@ class _ListItemWidgetState extends State<ListItemWidget> {
             height: 10,
           ),
           Container(
+            height: 500,
             width: double.infinity,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Colors.grey.shade100,
               borderRadius: BorderRadius.circular(5),
             ),
-            height: 50,
             child: Text("Container"),
           ),
           Row(
