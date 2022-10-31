@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -13,12 +15,24 @@ class ListItemWidget extends StatefulWidget {
 }
 
 class _ListItemWidgetState extends State<ListItemWidget> {
-  double _sizeH = 100;
+  late double sizeH;
+  late bool isVisible;
+  @override
+  initState() {
+    super.initState();
+    sizeH = 50;
+    isVisible = false;
+  }
+
+  changeSizeAndVisibility() {
+    sizeH = sizeH == 50 ? 500 : 50;
+    isVisible = isVisible ? false : true;
+  }
+
+  //Variável de tamanho do container
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeOut,
+    return Container(
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -31,7 +45,7 @@ class _ListItemWidgetState extends State<ListItemWidget> {
       margin: const EdgeInsets.all(15),
       padding: const EdgeInsets.all(8),
       constraints: BoxConstraints(
-        minHeight: _sizeH,
+        minHeight: 100,
         minWidth: double.infinity,
       ),
       child: Column(
@@ -50,21 +64,19 @@ class _ListItemWidgetState extends State<ListItemWidget> {
               ),
               IconButton(
                 icon: Icon(Icons.arrow_drop_down_circle),
-                onPressed: () => {
-                  setState(
-                    () {
-                      _sizeH = _sizeH == 100 ? 500 : 100;
-                    },
-                  )
-                },
+                onPressed: () => setState(() => changeSizeAndVisibility()),
               )
             ],
           ),
           const SizedBox(
             height: 10,
           ),
-          Container(
-            height: 500,
+          AnimatedContainer(
+            curve: Curves.easeInOut,
+            duration: const Duration(milliseconds: 350),
+            constraints: BoxConstraints(
+              minHeight: sizeH,
+            ),
             width: double.infinity,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -72,19 +84,23 @@ class _ListItemWidgetState extends State<ListItemWidget> {
               borderRadius: BorderRadius.circular(5),
             ),
             child: Text("Container"),
+            margin: const EdgeInsets.only(bottom: 10),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                onPressed: () => {},
-                icon: const Icon(Icons.delete_forever),
-              ),
-              IconButton(
-                onPressed: () => {},
-                icon: const Icon(Icons.edit),
-              )
-            ],
+          Visibility(
+            visible: isVisible,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  onPressed: () => {},
+                  icon: const Icon(Icons.delete_forever),
+                ),
+                IconButton(
+                  onPressed: () => {},
+                  icon: const Icon(Icons.edit),
+                )
+              ],
+            ),
           )
         ],
         mainAxisSize: MainAxisSize.min,
