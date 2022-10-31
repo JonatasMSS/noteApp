@@ -8,7 +8,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class ListItemWidget extends StatefulWidget {
-  const ListItemWidget({super.key});
+  ListItemWidget({super.key});
+  String? titleW;
+  String? description;
 
   @override
   State<ListItemWidget> createState() => _ListItemWidgetState();
@@ -69,7 +71,7 @@ class _ListItemWidgetState extends State<ListItemWidget>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Titulo Nota",
+                widget.titleW ?? "NO DATA",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -98,7 +100,7 @@ class _ListItemWidgetState extends State<ListItemWidget>
               color: Colors.grey.shade100,
               borderRadius: BorderRadius.circular(5),
             ),
-            child: Text("Container"),
+            child: Text(widget.description ?? "NO DATA"),
             margin: const EdgeInsets.only(bottom: 10),
           ),
           Visibility(
