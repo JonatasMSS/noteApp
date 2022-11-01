@@ -13,7 +13,11 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Minhas Notas"),
       ),
-      body: ListItemWidget(),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          return ListItemWidget();
+        },
+      ),
     );
   }
 }
