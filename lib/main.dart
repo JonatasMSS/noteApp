@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:notesapp/pages/homePage/homePage.dart';
+import 'package:notesapp/pages/homePage/homePageBindings.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const Main());
+  WidgetsFlutterBinding.ensureInitialized();
 }
 
 class Main extends StatelessWidget {
@@ -17,6 +19,7 @@ class Main extends StatelessWidget {
         GetPage(
           name: '/',
           page: () => const HomePage(),
+          binding: HomePageBindings(),
         )
       ],
     );
