@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:notesapp/Components/models/notesModel.dart';
 import 'package:path/path.dart' as p;
@@ -7,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 class HomePageController extends GetxController {
   late Database DB;
+  final int a = 1;
   @override
   Future<void> onReady() async {
     super.onReady();
@@ -19,12 +18,6 @@ class HomePageController extends GetxController {
       },
       version: 1,
     );
-
-    final noteA =
-        NotesModel(id: 1, title: 'Teste A ', description: 'Descricao de teste');
-
-    print("Buscando Dados");
-    print(await listAllNotes());
   }
 
   Future<List<NotesModel>> listAllNotes() async {

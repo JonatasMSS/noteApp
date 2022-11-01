@@ -15,10 +15,11 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialRoute: '/',
+      initialBinding: HomePageBindings(),
       getPages: [
         GetPage(
           name: '/',
-          page: () => const HomePage(),
+          page: () => HomePage(),
           binding: HomePageBindings(),
         )
       ],
