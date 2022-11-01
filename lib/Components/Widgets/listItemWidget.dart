@@ -8,7 +8,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class ListItemWidget extends StatefulWidget {
-  ListItemWidget({super.key});
+  ListItemWidget({super.key, this.titleW, this.description});
   String? titleW;
   String? description;
 
