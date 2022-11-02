@@ -19,20 +19,21 @@ class HomePage extends GetView<HomePageController> {
       body: FutureBuilder(
         future: controller.listAllNotes(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.data!.isNotEmpty) {
-            return ListView.builder(
-              itemCount: snapshot.data?.length,
-              itemBuilder: (context, index) {
-                return ListItemWidget(
-                  titleW: "A",
-                );
-              },
-            );
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data?.length,
+                itemBuilder: (context, index) {
+                  final NotesModel myNote = snapshot.data![index];
+                  return ListItemWidget(
+                    titleW: myNote.title,
+                    description: myNote.description,
+                  );
+                },
+              );
+            }
           }
-          return Center(
-            child: Text("NO DATA"),
-          );
+          return const CircularProgressIndicator();
         },
       ),
     );

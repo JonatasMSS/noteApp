@@ -7,21 +7,32 @@ class HomePageController extends GetxController {
   late Database DB;
   final int a = 1;
   @override
-  Future<void> onReady() async {
-    super.onReady();
+  Future<void> onInit() async {
+    // TODO: implement onInit
+    super.onInit();
+    final NotesModel Note =
+        NotesModel(id: 1, title: "A", description: "Descript");
 
     DB = await openDatabase(
-      p.join(await getDatabasesPath(), "notesapp/database/notes.db"),
+      p.join(await getDatabasesPath(), "notesapp/database/myNotes.db"),
       onCreate: (db, version) {
         return db.execute(
-            "CREATE TABLE IF NOT EXISTS notas(id INTERGER PRIMARY KEY,title varchar(30), description varchar(350));");
+            "CREATE TABLE notas(id integer not null ,title varchar(30), description varchar(350),PRIMARY KEY(id));");
       },
       version: 1,
     );
   }
 
+  @override
+  Future<void> onReady() async {
+    super.onReady();
+
+    //insertNote(Note);
+    //closeDB();
+  }
+
   Future<List<NotesModel>> listAllNotes() async {
-    final _myDb = await DB;
+    final _myDb = DB;
     final List<Map<String, dynamic>> _notesMap = await _myDb.query('notas');
     return List.generate(_notesMap.length, (i) {
       return NotesModel(

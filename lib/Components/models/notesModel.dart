@@ -2,11 +2,11 @@
 import 'dart:convert';
 
 class NotesModel {
-  int? id;
+  int id;
   String title;
   String description;
   NotesModel({
-    this.id = null,
+    required this.id,
     required this.title,
     required this.description,
   });
@@ -33,7 +33,7 @@ class NotesModel {
 
   factory NotesModel.fromMap(Map<String, dynamic> map) {
     return NotesModel(
-      id: map['id'] != null ? map['id'] as int : null,
+      id: map['id'] as int,
       title: map['title'] as String,
       description: map['description'] as String,
     );
