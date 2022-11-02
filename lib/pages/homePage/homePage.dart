@@ -50,6 +50,24 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Container(
+        decoration: const BoxDecoration(
+          color: Colors.blue,
+          shape: BoxShape.circle,
+        ),
+        child: IconButton(
+          splashColor: Colors.blue.shade300,
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) => controller.dialogNote(
+                    controller.titleController.value,
+                    controller.descriptionController.value));
+          },
+          icon: const Icon(Icons.add),
+          color: Colors.white,
+        ),
+      ),
       backgroundColor: Color.fromARGB(255, 253, 250, 244),
       appBar: AppBar(
         title: Text("Minhas Notas"),

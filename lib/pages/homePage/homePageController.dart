@@ -1,9 +1,15 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:notesapp/Components/models/notesModel.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
 class HomePageController extends GetxController {
+  Rx<TextEditingController> titleController = TextEditingController().obs;
+  Rx<TextEditingController> descriptionController = TextEditingController().obs;
+
   Future<List<NotesModel>> listAllNotes(Database DB) async {
     final _myDb = DB;
     final List<Map<String, dynamic>> _notesMap = await _myDb.query('notas');
@@ -37,5 +43,48 @@ class HomePageController extends GetxController {
 
   Future<void> closeDB(Database DB) async {
     DB.close();
+  }
+
+  Widget dialogNote(
+      TextEditingController? title, TextEditingController? description) {
+    return AlertDialog(
+      title: const Text("Adicionar nova nota"),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              decoration: const InputDecoration(
+                hintText: "Titulo da nota",
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              controller: title,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            TextField(
+              decoration: const InputDecoration(
+                  hintText: "Comece por aqui...",
+                  filled: true,
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontStyle: FontStyle.italic,
+                  )),
+              controller: description,
+              autocorrect: true,
+              maxLines: 10,
+            )
+          ],
+        ),
+      ),
+      actions: [
+        IconButton(onPressed: () {}, icon: const Icon(Icons.check)),
+        IconButton(onPressed: () {}, icon: const Icon(Icons.close_sharp))
+      ],
+    );
   }
 }
