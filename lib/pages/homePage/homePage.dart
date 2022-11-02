@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
 
     await controller.listAllNotes(db).then((value) {
       setState(() {
-        print(value);
         notesList = value;
       });
     });
@@ -44,7 +43,6 @@ class _HomePageState extends State<HomePage> {
   refreshNotes() async {
     await controller.listAllNotes(db).then((value) {
       setState(() {
-        print(value);
         notesList = value;
       });
     });
@@ -93,9 +91,16 @@ class _HomePageState extends State<HomePage> {
               itemCount: notesList.length,
               itemBuilder: (context, index) {
                 final NotesModel myNote = notesList[index];
+                excludeNote() async {
+                  await controller
+                      .removeNote(myNote.id, db)
+                      .then((value) => refreshNotes());
+                }
+
                 return ListItemWidget(
                   titleW: myNote.title,
                   description: myNote.description,
+                  excludeFuntion: excludeNote,
                 );
               },
             );

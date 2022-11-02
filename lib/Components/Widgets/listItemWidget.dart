@@ -8,9 +8,16 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class ListItemWidget extends StatefulWidget {
-  ListItemWidget({super.key, this.titleW, this.description});
+  ListItemWidget(
+      {super.key,
+      this.titleW,
+      this.description,
+      this.editFunction,
+      this.excludeFuntion});
   String? titleW;
   String? description;
+  Function? excludeFuntion;
+  Function? editFunction;
 
   @override
   State<ListItemWidget> createState() => _ListItemWidgetState();
@@ -22,6 +29,7 @@ class _ListItemWidgetState extends State<ListItemWidget>
   late bool isVisible;
   late AnimationController iconAnimation;
   late bool isActive; // Bool for animation
+  late int maximumLines;
 
   @override
   initState() {
@@ -29,6 +37,7 @@ class _ListItemWidgetState extends State<ListItemWidget>
     sizeH = 50;
     isVisible = false;
     isActive = false;
+    maximumLines = 2;
     iconAnimation = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -38,6 +47,7 @@ class _ListItemWidgetState extends State<ListItemWidget>
 
   changeSizeAndVisibility() {
     sizeH = sizeH == 50 ? 500 : 50;
+    maximumLines = maximumLines == 2 ? 250 : 2;
     isVisible = isVisible ? false : true;
     isActive = !isActive;
     isActive ? iconAnimation.forward() : iconAnimation.reverse();
@@ -100,8 +110,12 @@ class _ListItemWidgetState extends State<ListItemWidget>
               color: Colors.grey.shade100,
               borderRadius: BorderRadius.circular(5),
             ),
-            child: Text(widget.description ?? "NO DATA"),
             margin: const EdgeInsets.only(bottom: 10),
+            child: Text(
+              widget.description ?? "NO DATA",
+              maxLines: maximumLines,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           Visibility(
             visible: isVisible,
@@ -109,11 +123,13 @@ class _ListItemWidgetState extends State<ListItemWidget>
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  onPressed: () => {},
+                  onPressed: () {
+                    widget.excludeFuntion!();
+                  },
                   icon: const Icon(Icons.delete_forever),
                 ),
                 IconButton(
-                  onPressed: () => {},
+                  onPressed: () => widget.editFunction,
                   icon: const Icon(Icons.edit),
                 )
               ],
