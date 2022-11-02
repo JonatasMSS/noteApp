@@ -9,15 +9,10 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class ListItemWidget extends StatefulWidget {
   ListItemWidget(
-      {super.key,
-      this.titleW,
-      this.description,
-      this.editFunction,
-      this.excludeFuntion});
+      {super.key, this.titleW, this.description, this.excludeFuntion});
   String? titleW;
   String? description;
   Function? excludeFuntion;
-  Function? editFunction;
 
   @override
   State<ListItemWidget> createState() => _ListItemWidgetState();
@@ -128,10 +123,6 @@ class _ListItemWidgetState extends State<ListItemWidget>
                   },
                   icon: const Icon(Icons.delete_forever),
                 ),
-                IconButton(
-                  onPressed: () => widget.editFunction,
-                  icon: const Icon(Icons.edit),
-                )
               ],
             ),
           )
