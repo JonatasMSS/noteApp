@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   late Database db;
   HomePageController controller = HomePageController();
   List<NotesModel> notesList = [];
+
   openDB() async {
     db = await openDatabase(
       p.join(await getDatabasesPath(), "notesapp/database/myNotes.db"),
@@ -32,6 +33,15 @@ class _HomePageState extends State<HomePage> {
       version: 1,
     );
 
+    await controller.listAllNotes(db).then((value) {
+      setState(() {
+        print(value);
+        notesList = value;
+      });
+    });
+  }
+
+  refreshNotes() async {
     await controller.listAllNotes(db).then((value) {
       setState(() {
         print(value);
@@ -59,10 +69,14 @@ class _HomePageState extends State<HomePage> {
           splashColor: Colors.blue.shade300,
           onPressed: () {
             showDialog(
-                context: context,
-                builder: (context) => controller.dialogNote(
-                    controller.titleController.value,
-                    controller.descriptionController.value));
+              context: context,
+              builder: (context) => controller.dialogNote(
+                controller.titleController.value,
+                controller.descriptionController.value,
+                context,
+                db,
+              ),
+            ).whenComplete(() => refreshNotes());
           },
           icon: const Icon(Icons.add),
           color: Colors.white,

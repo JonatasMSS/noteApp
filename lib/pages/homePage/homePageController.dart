@@ -46,7 +46,11 @@ class HomePageController extends GetxController {
   }
 
   Widget dialogNote(
-      TextEditingController? title, TextEditingController? description) {
+    TextEditingController? title,
+    TextEditingController? description,
+    BuildContext context,
+    Database DB,
+  ) {
     return AlertDialog(
       title: const Text("Adicionar nova nota"),
       content: SingleChildScrollView(
@@ -82,8 +86,34 @@ class HomePageController extends GetxController {
         ),
       ),
       actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.check)),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.close_sharp))
+        IconButton(
+            onPressed: () async {
+              dynamic tempId = 0;
+              await listAllNotes(DB)
+                  .then((value) => tempId = value.isEmpty ? 0 : value.length);
+              print("Temp Id Value:$tempId");
+
+              NotesModel tempNote = NotesModel(
+                  id: tempId,
+                  title: title!.text,
+                  description: description!.text);
+              await insertNote(tempNote, DB).then(
+                (value) {
+                  refresh();
+                  title.clear();
+                  description.clear();
+                  Navigator.pop(context);
+                },
+              );
+            },
+            icon: const Icon(Icons.check)),
+        IconButton(
+            onPressed: () {
+              title?.clear();
+              description?.clear();
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.close_sharp))
       ],
     );
   }
