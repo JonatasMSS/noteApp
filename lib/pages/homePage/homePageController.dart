@@ -4,34 +4,7 @@ import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
 class HomePageController extends GetxController {
-  late Database DB;
-  final int a = 1;
-  @override
-  Future<void> onInit() async {
-    // TODO: implement onInit
-    super.onInit();
-    final NotesModel Note =
-        NotesModel(id: 1, title: "A", description: "Descript");
-
-    DB = await openDatabase(
-      p.join(await getDatabasesPath(), "notesapp/database/myNotes.db"),
-      onCreate: (db, version) {
-        return db.execute(
-            "CREATE TABLE notas(id integer not null ,title varchar(30), description varchar(350),PRIMARY KEY(id));");
-      },
-      version: 1,
-    );
-  }
-
-  @override
-  Future<void> onReady() async {
-    super.onReady();
-
-    //insertNote(Note);
-    //closeDB();
-  }
-
-  Future<List<NotesModel>> listAllNotes() async {
+  Future<List<NotesModel>> listAllNotes(Database DB) async {
     final _myDb = DB;
     final List<Map<String, dynamic>> _notesMap = await _myDb.query('notas');
     return List.generate(_notesMap.length, (i) {
@@ -42,14 +15,14 @@ class HomePageController extends GetxController {
     });
   }
 
-  Future<void> insertNote(NotesModel nota) async {
-    final _myDb = await DB;
+  Future<void> insertNote(NotesModel nota, Database DB) async {
+    final _myDb = DB;
     _myDb.insert('notas', nota.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  Future<void> removeNote(int? id) async {
-    final _myDb = await DB;
+  Future<void> removeNote(int id, Database DB) async {
+    final _myDb = DB;
     _myDb.delete(
       'notas',
       where: "id = ?",
@@ -57,12 +30,12 @@ class HomePageController extends GetxController {
     );
   }
 
-  Future<void> editNote(NotesModel note) async {
+  Future<void> editNote(NotesModel note, Database DB) async {
     final _myDB = DB;
     DB.update('notas', note.toMap(), where: 'id = ?', whereArgs: [note.id]);
   }
 
-  Future<void> closeDB() async {
+  Future<void> closeDB(Database DB) async {
     DB.close();
   }
 }
