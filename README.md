@@ -1,16 +1,15 @@
-# notesapp
+<h2> NotesApp </h2>
 
-A new Flutter project.
+<p> Aplicativo de notas </p>
 
-## Getting Started
+<h3> Packages utilizados </h3>
+<ul>
+  <li> SQFlite </li>
+  <li> Path </li>
+  <li> Getx </li>
+</ul>
 
-This project is a starting point for a Flutter application.
+<h3> Descrição do App </h3>
 
-A few resources to get you started if this is your first Flutter project:
+<p> Aplicativo de notas utilizando pacotes de armazenamento de dados persistente com SQflite. Assim, quando o usuário fechar o app, os dados ainda se manterão salvos na plataforma </p>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
